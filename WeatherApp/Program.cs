@@ -8,6 +8,16 @@ namespace WeatherApp
     {
         static async Task Main(string[] args)
         {
+            Console.WriteLine("=====================================");
+            Console.WriteLine("      Welcome to WeatherApp!         ");
+            Console.WriteLine("=====================================");
+            Console.WriteLine("      .-.      ");
+            Console.WriteLine("     (   ).    ");
+            Console.WriteLine("    (___(__)   ");
+            Console.WriteLine("     ‘ ‘ ‘ ‘   ");
+            Console.WriteLine("    ‘ ‘ ‘ ‘    ");
+            Console.WriteLine("=====================================");
+
             Console.Write("Enter the city name: ");
             string city = Console.ReadLine();
 
@@ -15,7 +25,9 @@ namespace WeatherApp
             try
             {
                 var weatherData = await weatherService.GetWeatherAsync(city);
+                Console.WriteLine("=====================================");
                 Console.WriteLine($"Weather in {city}: {weatherData}");
+                Console.WriteLine("=====================================");
             }
             catch (Exception ex)
             {
