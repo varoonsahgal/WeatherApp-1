@@ -1,6 +1,6 @@
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace WeatherApp.Services
 {
@@ -13,15 +13,23 @@ namespace WeatherApp.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<WeatherData> GetWeatherAsync(string city)
+        public async Task<string> GetWeatherAsync(string city)
         {
-            string apiKey = "YOUR_API_KEY"; // Replace with your actual API key
-            string url = $"https://api.weatherapi.com/v1/current.json?key={apiKey}&q={city}";
+            string url = $"https://wttr.in/{city}?format=%C+%t"; // Fetch weather condition and temperature
 
-            var response = await _httpClient.GetStringAsync(url);
-            var weatherData = JsonConvert.DeserializeObject<WeatherData>(response);
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode(); // Throws an exception if the status code is not 2xx
 
-            return weatherData;
+                var weatherData = await response.Content.ReadAsStringAsync();
+                return weatherData;
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"Error fetching weather data: {ex.Message}");
+                throw; // Re-throw the exception to allow further handling if needed
+            }
         }
     }
 }

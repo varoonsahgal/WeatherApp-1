@@ -12,9 +12,15 @@ namespace WeatherApp
             string city = Console.ReadLine();
 
             WeatherService weatherService = new WeatherService();
-            var weatherData = await weatherService.GetWeatherAsync(city);
-
-            Console.WriteLine(weatherData);
+            try
+            {
+                var weatherData = await weatherService.GetWeatherAsync(city);
+                Console.WriteLine($"Weather in {city}: {weatherData}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
     }
 }
